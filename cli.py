@@ -4,7 +4,6 @@ import analytics
 def show_menu():
     """
     Display the main menu and prompt the user to choose an option.
-    The user's choice as a string.
     """
     print("\nWhat do you want to do?")
     print("1. Add a Habit")
@@ -18,7 +17,6 @@ def show_menu():
 def add_habit(tracker):
     """
     Prompt the user to add a new habit.
-    The Tracker object to add the habit to.
     """
     name = input("Enter the habit name: ")
     periodicity = input("Enter the periodicity ('daily' or 'weekly'): ").lower()
@@ -31,7 +29,6 @@ def add_habit(tracker):
 def choose_predefined_habit(tracker):
     """
     Allow the user to choose a predefined habit from a list.
-    The Tracker object to add the predefined habit to.
     """
     predefined_habits = [
         {'name': 'Read 10 pages', 'periodicity': 'daily'},
@@ -76,22 +73,22 @@ def analyze_habits(tracker):
     choice = input("Choose an option (1-4): ")
 
     if choice == "1":
-        all_habits = analytics.list_all_habits(tracker)
+        all_habits = analytics.list_all_habits(tracker.get_habits())
         print("All Habits:")
         for habit in all_habits:
             print(f"- {habit}")
     elif choice == "2":
         periodicity = input("Enter periodicity ('daily' or 'weekly'): ").lower()
-        filtered_habits = analytics.list_habits_by_periodicity(tracker, periodicity)
+        filtered_habits = analytics.list_habits_by_periodicity(tracker.get_habits(), periodicity)
         print(f"Habits with {periodicity} periodicity:")
         for habit in filtered_habits:
             print(f"- {habit}")
     elif choice == "3":
-        longest = analytics.longest_streak(tracker)
+        longest = analytics.longest_streak("all", tracker.get_habits())
         print(f"Longest streak across all habits: {longest}")
     elif choice == "4":
         habit_name = input("Enter the name of the habit: ")
-        streak = analytics.longest_streak_for_habit(tracker, habit_name)
+        streak = analytics.longest_streak(habit_name, tracker.get_habits())
         print(f"Longest streak for '{habit_name}': {streak}")
     else:
         print("Invalid option.")
